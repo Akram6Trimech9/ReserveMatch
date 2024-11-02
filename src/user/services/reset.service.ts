@@ -26,9 +26,8 @@ export class ResetPasswordService {
     }
     
 
-    async changePassword(changeDto: changePasswordDto): Promise<ApiRes<boolean>> {
-        const {email , password} = changeDto
-        const user = await this.userService.findByEmail(email);
+    async changePassword(password : string  , email : string ): Promise<ApiRes<boolean>> {
+         const user = await this.userService.findByEmail(email);
         if (!user) {
             throw new BadRequestException('Invalid email');
         }

@@ -35,9 +35,8 @@ const app = await NestFactory.create<NestExpressApplication>(AppModule);
     }
   ));
   app.enableCors();
-   app.setViewEngine('ejs');
-
-  await app.listen(process.env.PORT || 3000 , '0.0.0.0');
+  app.setViewEngine('ejs');
+   await app.listen(process.env.PORT || 3000 , '0.0.0.0');
 }
 
 bootstrap();

@@ -3,14 +3,7 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class changePasswordDto {
     
-    @ApiProperty({
-        description: 'The email of the user requesting the password change',
-        example: 'user@example.com',
-    })
-    @IsString()
-    @IsNotEmpty()
-    @IsEmail()
-    readonly email: string; 
+ 
 
     @ApiProperty({
         description: 'The new password for the user',

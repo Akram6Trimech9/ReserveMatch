@@ -84,8 +84,8 @@ export class AuthController {
   @ApiOperation({ summary: 'Change user password' })
   @ApiResponse({ status: HttpStatus.OK, description: 'Password changed successfully.' })
   @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Invalid email or other validation errors.' })
-  async changePassword(@Body() changeDto: changePasswordDto): Promise<ApiRes<boolean>> {
-      return await this.resetPasswordService.changePassword(changeDto);
+  async changePassword(@Body() changeDto: changePasswordDto  , @Request() req): Promise<ApiRes<boolean>> {
+       return await this.resetPasswordService.changePassword(changeDto.password , req.user?.email);
   }
   
  }
