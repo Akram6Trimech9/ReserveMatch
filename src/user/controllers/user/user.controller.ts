@@ -10,13 +10,16 @@ import {
     UseGuards,
     ValidationPipe,
     HttpCode,
-    Request
+    Request,
+    Body,
+    Patch
   } from '@nestjs/common';
  
   import { UserService } from 'src/user/services/user.service';
   import { ApiTags, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
   import { ParseUUIDPipe, ParseIntPipe } from '@nestjs/common';
     import { AtGuard } from 'src/user/common/guards';
+import { UpdateUserModuleDto } from 'src/user/dto/update-user-module.dto';
   @ApiTags('User')
   @Controller('user')
   export class UserController {
@@ -82,6 +85,18 @@ import {
     }
 
 
+  @Patch(':id')
+  @ApiParam({ name: 'id', required: true, description: 'User ID (UUID)' })
+  @ApiResponse({ status: 200, description: 'User successfully updated' })
+  @ApiResponse({ status: 404, description: 'User not found' })
+  @UsePipes(new ValidationPipe({ whitelist: true }))
+  async updateUser(
+    @Param('id', new ParseUUIDPipe()) id: string, 
+    @Body() updateUserDto: UpdateUserModuleDto
+  ) {
+    const updatedUser = await this.usersService.update(id, updateUserDto);
+    return updatedUser;
+  }
 
 
     }
