@@ -3,8 +3,6 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class changePasswordDto {
     
- 
-
     @ApiProperty({
         description: 'The new password for the user',
         example: 'P@ssw0rd123',

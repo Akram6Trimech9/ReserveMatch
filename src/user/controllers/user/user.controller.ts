@@ -7,16 +7,33 @@ import {
     UsePipes,
     HttpStatus,
     HttpException,
+    UseGuards,
+    ValidationPipe,
+    HttpCode,
+    Request
   } from '@nestjs/common';
+ 
   import { UserService } from 'src/user/services/user.service';
   import { ApiTags, ApiResponse, ApiParam, ApiQuery } from '@nestjs/swagger';
   import { ParseUUIDPipe, ParseIntPipe } from '@nestjs/common';
-  
+    import { AtGuard } from 'src/user/common/guards';
   @ApiTags('User')
   @Controller('user')
   export class UserController {
     constructor(private readonly usersService: UserService) {}
   
+
+    @UseGuards(AtGuard) 
+    @Get('/current-user')
+    async getCurrent( @Request() req) {
+   
+      const user = await this.usersService.findByEmail(req.user?.email);
+      if (!user) {
+        throw new HttpException('User not found', HttpStatus.NOT_FOUND);
+      }
+      return user;
+    }
+    
     @Get('/')
     @ApiResponse({ status: 200, description: 'Get all users' })
     async findAll() {
@@ -63,5 +80,10 @@ import {
       }
       return { message: 'User successfully deleted' };
     }
-  }
-  
+
+
+
+
+    }
+    
+ 
